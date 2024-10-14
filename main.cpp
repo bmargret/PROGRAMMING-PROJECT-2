@@ -55,4 +55,20 @@ void generateFixtures(const vector<Team> &teams) {
     random_shuffle(fixtures.begin(),fixtures.end());
 
     int matchCount=0;
+int matchCount = 0;
+    int weekend = 1;
 
+    // Display the fixtures with "weekend breaks"
+    for (auto &fixture : fixtures) {
+        cout << "Match: " << fixture.first.name << " (Home) vs " << fixture.second.name
+             << " at " << fixture.first.stadium << " (Weekend #" << weekend << ")\n";
+        matchCount++;
+        if (matchCount % 2 == 0) {
+            cout << "Weekend break\n";
+            weekend++;
+        }
+    }
+}
+
+int main() {
+    string filename;
