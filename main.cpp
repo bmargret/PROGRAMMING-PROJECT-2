@@ -38,4 +38,21 @@ vector<Team> readTeamsFromCSV(const string &filename) {
 
     return teams;
 }
+void generateFixtures(const vector<Team> &teams) {
+    vector<pair<Team, Team>> fixtures;
+    int numTeams = teams.size();
+    // Generate home and away fixtures
+    for (int i = 0; i < numTeams; ++i) {
+        for (int j = i + 1; j < numTeams; ++j) {
+            if (teams[i].town != teams[j].town) {
+                fixtures.push_back({teams[i], teams[j]}); // First leg
+                fixtures.push_back({teams[j], teams[i]}); // Second leg
+            }
+        }
+    }
+
+
+    random_shuffle(fixtures.begin(),fixtures.end());
+
+    int matchCount=0;
 
