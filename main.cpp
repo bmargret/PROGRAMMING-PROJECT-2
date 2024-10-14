@@ -28,7 +28,6 @@ vector<Team> readTeamsFromCSV(const string &filename) {
         stringstream ss(line);
         string name, town, stadium;
 
-        // Read each field from the line (team name, town, stadium)
         getline(ss, name, ',');
         getline(ss, town, ',');
         getline(ss, stadium, ',');
@@ -38,9 +37,11 @@ vector<Team> readTeamsFromCSV(const string &filename) {
 
     return teams;
 }
+
 void generateFixtures(const vector<Team> &teams) {
     vector<pair<Team, Team>> fixtures;
     int numTeams = teams.size();
+
     // Generate home and away fixtures
     for (int i = 0; i < numTeams; ++i) {
         for (int j = i + 1; j < numTeams; ++j) {
@@ -51,20 +52,35 @@ void generateFixtures(const vector<Team> &teams) {
         }
     }
 
+    
+    random_shuffle(fixtures.begin(), fixtures.end());
 
-    random_shuffle(fixtures.begin(),fixtures.end());
+    int matchCount = 0;
+    int weekend = 1;
 
-    int matchCount=0;
+    // Display the fixtures with "weekend breaks"
+    for (auto &fixture : fixtures) {
+        cout << "Match: " << fixture.first.name << " (Home) vs " << fixture.second.name
+             << " at " << fixture.first.stadium << " (Weekend #" << weekend << ")\n";
+        matchCount++;
+        if (matchCount % 2 == 0) {
+            cout << "Weekend break\n";
+            weekend++;
+        }
+    }
+}
+
+int main() {
+    string filename;
 
     // Prompt the user for CSV file path
-
     cout << "Enter the path to the CSV file: ";
     getline(cin, filename);
 
     // Read teams from the CSV file
     vector<Team> teams = readTeamsFromCSV(filename);
 
-
+   
     if (teams.empty()) {
         cerr << "Error: No teams found in the file.\n";
         return 1;
@@ -72,5 +88,5 @@ void generateFixtures(const vector<Team> &teams) {
 
     // Generate and display fixtures
     generateFixtures(teams);
-    return 0;
+    return 0;
 }
