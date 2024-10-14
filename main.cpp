@@ -56,3 +56,21 @@ void generateFixtures(const vector<Team> &teams) {
 
     int matchCount=0;
 
+    // Prompt the user for CSV file path
+
+    cout << "Enter the path to the CSV file: ";
+    getline(cin, filename);
+
+    // Read teams from the CSV file
+    vector<Team> teams = readTeamsFromCSV(filename);
+
+
+    if (teams.empty()) {
+        cerr << "Error: No teams found in the file.\n";
+        return 1;
+    }
+
+    // Generate and display fixtures
+    generateFixtures(teams);
+    return 0;
+}
